@@ -7,23 +7,15 @@
 <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Nunito:wght@200;300;400;500&display=swap" rel="stylesheet"/>
 <style>
 :root {
-  --bg: #fdf8f5;
-  --bg2: #faf3ee;
-  --rose: #d4836a;
-  --rose-light: #f2c4b0;
-  --nude: #e8c5b0;
-  --nude-dim: rgba(212,131,106,0.1);
-  --text: #2d2420;
-  --muted: #9e8880;
-  --border: rgba(212,131,106,0.18);
-  --white: #fffcfa;
-  --shadow: 0 4px 40px rgba(212,131,106,0.08);
+  --bg:#fdf8f5;--rose:#d4836a;--rose-light:#f2c4b0;--nude:#e8c5b0;
+  --nude-dim:rgba(212,131,106,0.1);--text:#2d2420;--muted:#9e8880;
+  --border:rgba(212,131,106,0.18);--white:#fffcfa;
+  --shadow:0 4px 40px rgba(212,131,106,0.08);
 }
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;}
 body{background:var(--bg);color:var(--text);font-family:'Nunito',sans-serif;font-weight:300;min-height:100vh;}
 
-/* HERO */
 .hero{background:var(--white);border-bottom:1px solid var(--border);padding:64px 24px 52px;text-align:center;position:relative;overflow:hidden;}
 .hero::before{content:'';position:absolute;top:-60px;left:50%;transform:translateX(-50%);width:500px;height:300px;background:radial-gradient(ellipse,rgba(212,131,106,0.12) 0%,transparent 70%);pointer-events:none;}
 .hero-tag{display:inline-block;font-size:0.65rem;letter-spacing:4px;text-transform:uppercase;color:var(--rose);border:1px solid var(--border);padding:5px 14px;border-radius:20px;margin-bottom:24px;animation:fadeUp 0.8s ease both;}
@@ -35,7 +27,6 @@ body{background:var(--bg);color:var(--text);font-family:'Nunito',sans-serif;font
 .pill:hover{background:var(--rose);color:white;border-color:var(--rose);transform:translateY(-2px);box-shadow:0 6px 20px rgba(212,131,106,0.25);}
 .pill svg{width:14px;height:14px;fill:currentColor;flex-shrink:0;}
 
-/* LAYOUT */
 .page{max-width:780px;margin:0 auto;padding:48px 20px 100px;}
 
 /* COMPOSER */
@@ -52,25 +43,38 @@ input:focus,textarea:focus{border-color:var(--rose-light);box-shadow:0 0 0 3px r
 input::placeholder,textarea::placeholder{color:var(--muted);opacity:0.6;}
 textarea{resize:vertical;min-height:100px;}
 
-/* UPLOAD */
 .upload-zone{border:2px dashed var(--border);border-radius:12px;padding:32px 20px;text-align:center;cursor:pointer;transition:all 0.2s;background:var(--bg);position:relative;}
 .upload-zone:hover,.upload-zone.drag{border-color:var(--rose);background:var(--nude-dim);}
 .upload-zone input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
 .upload-icon{font-size:2rem;margin-bottom:8px;}
 .upload-zone p{font-size:0.8rem;color:var(--muted);}
 .upload-zone span{font-size:0.7rem;color:var(--rose-light);display:block;margin-top:4px;}
+
 .img-previews{display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:8px;margin-top:4px;}
 .img-preview-item{position:relative;aspect-ratio:1;border-radius:8px;overflow:hidden;}
 .img-preview-item img{width:100%;height:100%;object-fit:cover;}
-.img-preview-item button{position:absolute;top:4px;right:4px;width:22px;height:22px;background:rgba(0,0,0,0.55);border:none;border-radius:50%;color:white;font-size:0.7rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background 0.2s;}
-.img-preview-item button:hover{background:var(--rose);}
+.img-preview-item .rm{position:absolute;top:4px;right:4px;width:22px;height:22px;background:rgba(0,0,0,0.55);border:none;border-radius:50%;color:white;font-size:0.7rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background 0.2s;}
+.img-preview-item .rm:hover{background:var(--rose);}
 
-.btn-post{align-self:flex-end;padding:12px 28px;background:linear-gradient(135deg,var(--rose),#c07060);color:white;border:none;border-radius:30px;font-family:'Nunito',sans-serif;font-size:0.78rem;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;transition:all 0.2s;box-shadow:0 4px 16px rgba(212,131,106,0.3);}
+.btn-post{align-self:flex-end;padding:12px 28px;background:linear-gradient(135deg,var(--rose),#c07060);color:white;border:none;border-radius:30px;font-family:'Nunito',sans-serif;font-size:0.78rem;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;transition:all 0.2s;box-shadow:0 4px 16px rgba(212,131,106,0.3);display:flex;align-items:center;gap:8px;}
 .btn-post:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(212,131,106,0.35);}
-.btn-post:active{transform:translateY(0);}
+.btn-post:disabled{opacity:0.6;cursor:not-allowed;transform:none;}
+
+/* SPINNER */
+.spin{width:14px;height:14px;border:2px solid rgba(255,255,255,0.4);border-top-color:white;border-radius:50%;animation:spin 0.7s linear infinite;display:none;}
+.btn-post.loading .spin{display:block;}
 
 /* FEED */
-#feed{display:flex;flex-direction:column;gap:0;}
+#feed{display:flex;flex-direction:column;}
+
+/* LOADING FEED */
+.feed-loading{text-align:center;padding:60px 20px;color:var(--muted);}
+.feed-loading .dots{display:inline-flex;gap:6px;margin-top:12px;}
+.feed-loading .dot{width:8px;height:8px;border-radius:50%;background:var(--rose-light);animation:bounce 1.2s ease-in-out infinite;}
+.feed-loading .dot:nth-child(2){animation-delay:0.2s;}
+.feed-loading .dot:nth-child(3){animation-delay:0.4s;}
+@keyframes bounce{0%,80%,100%{transform:scale(0.6);opacity:0.4;}40%{transform:scale(1);opacity:1;}}
+
 .post-card{background:var(--white);border:1px solid var(--border);border-radius:16px;overflow:hidden;margin-bottom:24px;box-shadow:var(--shadow);animation:fadeUp 0.5s ease both;transition:transform 0.2s,box-shadow 0.2s;}
 .post-card:hover{transform:translateY(-2px);box-shadow:0 8px 48px rgba(212,131,106,0.12);}
 .card-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px 0;}
@@ -83,53 +87,45 @@ textarea{resize:vertical;min-height:100px;}
 .btn-del{background:none;border:none;color:var(--muted);cursor:pointer;font-size:0.75rem;padding:4px 8px;border-radius:6px;transition:all 0.2s;font-family:'Nunito',sans-serif;}
 .btn-del:hover{background:#fee;color:#c0392b;}
 
-/* TEXT */
 .card-body{padding:16px 20px 20px;}
 .post-title{font-family:'Libre Baskerville',serif;font-size:1.25rem;font-weight:400;color:var(--text);margin-bottom:10px;line-height:1.4;}
 .post-text{font-size:0.9rem;line-height:1.8;color:#5a4a44;font-weight:300;}
 
-/* GALLERIES */
-.gallery-1 img{width:100%;max-height:480px;object-fit:cover;display:block;}
+.gallery-1 img{width:100%;max-height:500px;object-fit:cover;display:block;}
 .gallery-2{display:grid;grid-template-columns:1fr 1fr;gap:2px;}
-.gallery-3{display:grid;grid-template-columns:2fr 1fr;grid-template-rows:1fr 1fr;gap:2px;max-height:400px;}
+.gallery-3{display:grid;grid-template-columns:2fr 1fr;grid-template-rows:1fr 1fr;gap:2px;max-height:420px;}
 .gallery-3 img:first-child{grid-row:span 2;}
 .gallery-4{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:2px;max-height:440px;}
 .gallery-many{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;}
-.gallery-2 img,.gallery-3 img,.gallery-4 img,.gallery-many img{width:100%;height:100%;object-fit:cover;display:block;}
-.gallery-many img{aspect-ratio:1;}
+.gallery-2 img,.gallery-3 img,.gallery-4 img{width:100%;height:100%;object-fit:cover;display:block;}
+.gallery-many img{width:100%;aspect-ratio:1;object-fit:cover;display:block;}
 .img-caption{padding:12px 20px 16px;font-size:0.82rem;color:var(--muted);font-style:italic;font-family:'Libre Baskerville',serif;}
 
-/* VIDEO */
 .video-wrap{position:relative;padding-bottom:56.25%;height:0;overflow:hidden;}
 .video-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:none;}
-
-/* INSTAGRAM */
 .ig-wrap{padding:0 20px 20px;display:flex;justify-content:center;}
 .instagram-media{min-width:unset!important;width:100%!important;max-width:480px!important;border-radius:12px!important;}
 
-/* EMPTY */
 .empty{text-align:center;padding:80px 20px;color:var(--muted);}
 .empty-icon{font-size:3rem;margin-bottom:16px;opacity:0.4;}
 .empty p{font-family:'Libre Baskerville',serif;font-style:italic;font-size:1.1rem;margin-bottom:6px;}
 .empty small{font-size:0.75rem;opacity:0.6;}
 
-/* TOAST */
 .toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--text);color:var(--white);padding:11px 22px;border-radius:30px;font-size:0.78rem;letter-spacing:0.5px;opacity:0;transition:all 0.3s;pointer-events:none;z-index:9999;white-space:nowrap;}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 
-/* LIGHTBOX */
 .lightbox{position:fixed;inset:0;background:rgba(0,0,0,0.88);display:flex;align-items:center;justify-content:center;z-index:9999;opacity:0;pointer-events:none;transition:opacity 0.3s;}
 .lightbox.open{opacity:1;pointer-events:all;}
 .lightbox img{max-width:90vw;max-height:90vh;object-fit:contain;border-radius:4px;}
 .lightbox-close{position:absolute;top:20px;right:24px;background:none;border:none;color:white;font-size:2rem;cursor:pointer;line-height:1;}
 
 @keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+@keyframes spin{to{transform:rotate(360deg);}}
 
 @media(max-width:600px){
   .page{padding:24px 14px 80px;}
   .composer{padding:20px;}
-  .gallery-3,.gallery-4{max-height:280px;}
-  .gallery-2{max-height:240px;}
+  .gallery-3,.gallery-4{max-height:260px;}
 }
 </style>
 </head>
@@ -168,7 +164,9 @@ textarea{resize:vertical;min-height:100px;}
     <div class="fields on" id="f-text">
       <input type="text" id="t-title" placeholder="Tiêu đề bài viết..."/>
       <textarea id="t-body" rows="4" placeholder="Kể gì đó cho mọi người nghe nhé 🌸"></textarea>
-      <button class="btn-post" onclick="pub('text')">Đăng bài →</button>
+      <button class="btn-post" id="btn-text" onclick="pub('text')">
+        <div class="spin"></div>Đăng bài →
+      </button>
     </div>
 
     <div class="fields" id="f-photo">
@@ -176,31 +174,36 @@ textarea{resize:vertical;min-height:100px;}
         <input type="file" id="file-input" accept="image/*" multiple onchange="handleFiles(this.files)"/>
         <div class="upload-icon">🌸</div>
         <p>Kéo thả ảnh vào đây hoặc click để chọn</p>
-        <span>Hỗ trợ nhiều ảnh cùng lúc · JPG, PNG, WEBP</span>
+        <span>Hỗ trợ nhiều ảnh cùng lúc · JPG PNG WEBP</span>
       </div>
       <div class="img-previews" id="previews"></div>
       <input type="text" id="p-caption" placeholder="Caption cho ảnh (tuỳ chọn)..."/>
-      <button class="btn-post" onclick="pub('photo')">Đăng ảnh →</button>
+      <button class="btn-post" id="btn-photo" onclick="pub('photo')">
+        <div class="spin"></div>Đăng ảnh →
+      </button>
     </div>
 
     <div class="fields" id="f-video">
       <input type="url" id="v-url" placeholder="Link YouTube hoặc Vimeo..."/>
       <input type="text" id="v-caption" placeholder="Caption (tuỳ chọn)..."/>
-      <button class="btn-post" onclick="pub('video')">Đăng video →</button>
+      <button class="btn-post" id="btn-video" onclick="pub('video')">
+        <div class="spin"></div>Đăng video →
+      </button>
     </div>
 
     <div class="fields" id="f-instagram">
       <input type="url" id="ig-url" placeholder="https://www.instagram.com/p/..."/>
       <input type="text" id="ig-caption" placeholder="Caption (tuỳ chọn)..."/>
-      <button class="btn-post" onclick="pub('instagram')">Đăng →</button>
+      <button class="btn-post" id="btn-instagram" onclick="pub('instagram')">
+        <div class="spin"></div>Đăng →
+      </button>
     </div>
   </div>
 
   <div id="feed">
-    <div class="empty">
-      <div class="empty-icon">🌸</div>
-      <p>Blog của bạn đang trống...</p>
-      <small>Thêm bài viết đầu tiên bằng form phía trên nhé!</small>
+    <div class="feed-loading">
+      <div style="font-size:0.85rem;color:var(--muted);">Đang tải bài viết...</div>
+      <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
     </div>
   </div>
 </div>
@@ -213,10 +216,55 @@ textarea{resize:vertical;min-height:100px;}
 
 <script async src="//www.instagram.com/embed.js"></script>
 <script>
-let posts = JSON.parse(localStorage.getItem('louisa_v3') || '[]');
-let pending = [];
+// ── CONFIG ──
+const JSONBIN_ID  = '6a041de3c0954111d817517c';
+const JSONBIN_KEY = '$2a$10$odVrl4MhNahAj3DDsujeUuhSu.y7uTksyZHKtsa5UDhe.CaudawLi';
+const CDN_CLOUD   = 'dffjnmuq4';
+const CDN_PRESET  = 'pcdnav5l';
+const BIN_URL     = `https://api.jsonbin.io/v3/b/${JSONBIN_ID}`;
+
+let posts = [];
+let pending = []; // {file, previewUrl}
 let curTab = 'text';
 
+// ── JSONBIN ──
+async function loadPosts() {
+  try {
+    const res = await fetch(BIN_URL + '/latest', {
+      headers: { 'X-Master-Key': JSONBIN_KEY }
+    });
+    const data = await res.json();
+    posts = Array.isArray(data.record) ? data.record : [];
+  } catch(e) {
+    posts = [];
+  }
+  render();
+}
+
+async function savePosts() {
+  await fetch(BIN_URL, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Master-Key': JSONBIN_KEY
+    },
+    body: JSON.stringify(posts)
+  });
+}
+
+// ── CLOUDINARY ──
+async function uploadToCloud(file) {
+  const fd = new FormData();
+  fd.append('file', file);
+  fd.append('upload_preset', CDN_PRESET);
+  const res = await fetch(`https://api.cloudinary.com/v1_1/${CDN_CLOUD}/image/upload`, {
+    method: 'POST', body: fd
+  });
+  const data = await res.json();
+  return data.secure_url;
+}
+
+// ── TAB ──
 function setTab(t) {
   curTab = t;
   document.querySelectorAll('.tab-btn').forEach((b,i) =>
@@ -225,99 +273,137 @@ function setTab(t) {
   document.getElementById('f-'+t).classList.add('on');
 }
 
+// ── FILE PREVIEW ──
 function handleFiles(files) {
-  Array.from(files).forEach(f => {
-    const r = new FileReader();
-    r.onload = e => { pending.push(e.target.result); renderPreviews(); };
-    r.readAsDataURL(f);
+  Array.from(files).forEach(file => {
+    const url = URL.createObjectURL(file);
+    pending.push({ file, previewUrl: url });
+    renderPreviews();
   });
 }
 
 function renderPreviews() {
-  document.getElementById('previews').innerHTML = pending.map((src,i) => `
+  document.getElementById('previews').innerHTML = pending.map((item, i) => `
     <div class="img-preview-item">
-      <img src="${src}"/>
-      <button onclick="pending.splice(${i},1);renderPreviews()">×</button>
+      <img src="${item.previewUrl}"/>
+      <button class="rm" onclick="removePending(${i})">×</button>
     </div>`).join('');
 }
 
+function removePending(i) {
+  URL.revokeObjectURL(pending[i].previewUrl);
+  pending.splice(i, 1);
+  renderPreviews();
+}
+
+// DRAG DROP
 const dz = document.getElementById('dropzone');
 dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('drag'); });
 dz.addEventListener('dragleave', () => dz.classList.remove('drag'));
 dz.addEventListener('drop', e => { e.preventDefault(); dz.classList.remove('drag'); handleFiles(e.dataTransfer.files); });
 
-function ytId(u) { const m=u.match(/(?:youtu\.be\/|youtube\.com(?:\/embed\/|\/v\/|\/watch\?v=|\/watch\?.+&v=))([^"&?\/\s]{11})/); return m?m[1]:null; }
-function vmId(u) { const m=u.match(/vimeo\.com\/(\d+)/); return m?m[1]:null; }
-function igClean(u) { const m=u.match(/instagram\.com\/(p|reel)\/([A-Za-z0-9_-]+)/); return m?`https://www.instagram.com/${m[1]}/${m[2]}/`:null; }
-function today() { return new Date().toLocaleDateString('vi-VN',{day:'2-digit',month:'2-digit',year:'numeric'}); }
-function save() { localStorage.setItem('louisa_v3', JSON.stringify(posts)); }
+// ── HELPERS ──
+function ytId(u){const m=u.match(/(?:youtu\.be\/|youtube\.com(?:\/embed\/|\/v\/|\/watch\?v=|\/watch\?.+&v=))([^"&?\/\s]{11})/);return m?m[1]:null;}
+function vmId(u){const m=u.match(/vimeo\.com\/(\d+)/);return m?m[1]:null;}
+function igClean(u){const m=u.match(/instagram\.com\/(p|reel)\/([A-Za-z0-9_-]+)/);return m?`https://www.instagram.com/${m[1]}/${m[2]}/`:null;}
+function today(){return new Date().toLocaleDateString('vi-VN',{day:'2-digit',month:'2-digit',year:'numeric'});}
 
-function toast(msg) {
+function toast(msg, dur=2500) {
   const t = document.getElementById('toast');
   t.textContent = msg; t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2500);
+  setTimeout(() => t.classList.remove('show'), dur);
 }
 
-function pub(type) {
+function setLoading(tab, on) {
+  const btn = document.getElementById('btn-'+tab);
+  btn.classList.toggle('loading', on);
+  btn.disabled = on;
+}
+
+// ── PUBLISH ──
+async function pub(type) {
   let p = { type, id: Date.now(), date: today() };
-  if (type === 'text') {
-    const title = document.getElementById('t-title').value.trim();
-    const body  = document.getElementById('t-body').value.trim();
-    if (!body && !title) { toast('Viết gì đó đi bạn ơi 🌸'); return; }
-    p.title = title; p.body = body;
-    document.getElementById('t-title').value = '';
-    document.getElementById('t-body').value = '';
+  setLoading(type, true);
+
+  try {
+    if (type === 'text') {
+      const title = document.getElementById('t-title').value.trim();
+      const body  = document.getElementById('t-body').value.trim();
+      if (!body && !title) { toast('Viết gì đó đi bạn ơi 🌸'); return; }
+      p.title = title; p.body = body;
+      document.getElementById('t-title').value = '';
+      document.getElementById('t-body').value = '';
+    }
+
+    if (type === 'photo') {
+      if (!pending.length) { toast('Chọn ảnh trước nhé!'); return; }
+      toast('Đang upload ảnh lên cloud... ☁️', 10000);
+      const urls = await Promise.all(pending.map(item => uploadToCloud(item.file)));
+      p.images = urls;
+      p.caption = document.getElementById('p-caption').value.trim();
+      pending.forEach(item => URL.revokeObjectURL(item.previewUrl));
+      pending = []; renderPreviews();
+      document.getElementById('p-caption').value = '';
+      document.getElementById('file-input').value = '';
+    }
+
+    if (type === 'video') {
+      const url = document.getElementById('v-url').value.trim();
+      const yt = ytId(url), vm = vmId(url);
+      if (!yt && !vm) { toast('Chỉ hỗ trợ YouTube và Vimeo!'); return; }
+      p.embedUrl = yt ? `https://www.youtube.com/embed/${yt}` : `https://player.vimeo.com/video/${vm}`;
+      p.caption = document.getElementById('v-caption').value.trim();
+      document.getElementById('v-url').value = '';
+      document.getElementById('v-caption').value = '';
+    }
+
+    if (type === 'instagram') {
+      const url = igClean(document.getElementById('ig-url').value.trim());
+      if (!url) { toast('Link Instagram không hợp lệ!'); return; }
+      p.url = url;
+      p.caption = document.getElementById('ig-caption').value.trim();
+      document.getElementById('ig-url').value = '';
+      document.getElementById('ig-caption').value = '';
+    }
+
+    posts.unshift(p);
+    await savePosts();
+    render();
+    toast('Đã đăng thành công 🌸');
+    setTimeout(() => { if (window.instgrm) window.instgrm.Embeds.process(); }, 400);
+
+  } catch(err) {
+    toast('Có lỗi xảy ra, thử lại nhé!');
+    console.error(err);
+  } finally {
+    setLoading(type, false);
   }
-  if (type === 'photo') {
-    if (!pending.length) { toast('Chọn ảnh trước nhé!'); return; }
-    p.images = [...pending];
-    p.caption = document.getElementById('p-caption').value.trim();
-    pending = []; renderPreviews();
-    document.getElementById('p-caption').value = '';
-    document.getElementById('file-input').value = '';
-  }
-  if (type === 'video') {
-    const url = document.getElementById('v-url').value.trim();
-    const yt = ytId(url), vm = vmId(url);
-    if (!yt && !vm) { toast('Chỉ hỗ trợ YouTube và Vimeo!'); return; }
-    p.embedUrl = yt ? `https://www.youtube.com/embed/${yt}` : `https://player.vimeo.com/video/${vm}`;
-    p.caption = document.getElementById('v-caption').value.trim();
-    document.getElementById('v-url').value = '';
-    document.getElementById('v-caption').value = '';
-  }
-  if (type === 'instagram') {
-    const url = igClean(document.getElementById('ig-url').value.trim());
-    if (!url) { toast('Link Instagram không hợp lệ!'); return; }
-    p.url = url;
-    p.caption = document.getElementById('ig-caption').value.trim();
-    document.getElementById('ig-url').value = '';
-    document.getElementById('ig-caption').value = '';
-  }
-  posts.unshift(p); save(); render();
-  toast('Đã đăng thành công 🌸');
-  setTimeout(() => { if (window.instgrm) window.instgrm.Embeds.process(); }, 400);
 }
 
-function delPost(id) { posts = posts.filter(p => p.id !== id); save(); render(); toast('Đã xoá'); }
+async function delPost(id) {
+  posts = posts.filter(p => p.id !== id);
+  await savePosts();
+  render();
+  toast('Đã xoá');
+}
 
+// ── GALLERY ──
 function gallery(images) {
   const n = images.length;
-  const img = (src, cls='') => `<img src="${src}" alt="" loading="lazy" class="${cls}" onclick="openLb('${src}')" style="cursor:zoom-in;"/>`;
-  if (n === 1) return `<div class="gallery-1">${img(images[0])}</div>`;
-  if (n === 2) return `<div class="gallery-2">${images.map(s=>img(s)).join('')}</div>`;
-  if (n === 3) return `<div class="gallery-3">${images.map(s=>img(s)).join('')}</div>`;
-  if (n === 4) return `<div class="gallery-4">${images.map(s=>img(s)).join('')}</div>`;
-  const show = images.slice(0, 9);
-  return `<div class="gallery-many">${show.map((src,i) => {
-    const extra = (i===8 && n>9) ? `<div style="position:absolute;inset:0;background:rgba(0,0,0,0.45);display:flex;align-items:center;justify-content:center;color:white;font-size:1.4rem;font-family:'Libre Baskerville',serif;font-style:italic;">+${n-9}</div>` : '';
-    return `<div style="position:relative;aspect-ratio:1;overflow:hidden;">
-      <img src="${src}" alt="" style="width:100%;height:100%;object-fit:cover;cursor:zoom-in;" onclick="openLb('${src}')" loading="lazy"/>
-      ${extra}</div>`;
+  const img = src => `<img src="${src}" alt="" loading="lazy" onclick="openLb('${src}')" style="cursor:zoom-in;"/>`;
+  if (n===1) return `<div class="gallery-1">${img(images[0])}</div>`;
+  if (n===2) return `<div class="gallery-2">${images.map(img).join('')}</div>`;
+  if (n===3) return `<div class="gallery-3">${images.map(img).join('')}</div>`;
+  if (n===4) return `<div class="gallery-4">${images.map(img).join('')}</div>`;
+  return `<div class="gallery-many">${images.slice(0,9).map((src,i) => {
+    const extra = (i===8&&n>9)?`<div style="position:absolute;inset:0;background:rgba(0,0,0,0.45);display:flex;align-items:center;justify-content:center;color:white;font-size:1.4rem;font-family:'Libre Baskerville',serif;font-style:italic;">+${n-9}</div>`:'';
+    return `<div style="position:relative;overflow:hidden;">${img(src)}${extra}</div>`;
   }).join('')}</div>`;
 }
 
-function typeLabel(t) { return {text:'Bài viết',photo:'Ảnh',video:'Video',instagram:'Instagram'}[t]||t; }
+function typeLabel(t){return{text:'Bài viết',photo:'Ảnh',video:'Video',instagram:'Instagram'}[t]||t;}
 
+// ── RENDER ──
 function render() {
   const feed = document.getElementById('feed');
   if (!posts.length) {
@@ -326,19 +412,13 @@ function render() {
   }
   feed.innerHTML = posts.map((p,i) => {
     let inner = '';
-    if (p.type === 'text') inner = `<div class="card-body">
-      ${p.title ? `<div class="post-title">${p.title}</div>` : ''}
-      ${p.body  ? `<div class="post-text">${p.body.replace(/\n/g,'<br/>')}</div>` : ''}
+    if (p.type==='text') inner=`<div class="card-body">
+      ${p.title?`<div class="post-title">${p.title}</div>`:''}
+      ${p.body?`<div class="post-text">${p.body.replace(/\n/g,'<br/>')}</div>`:''}
     </div>`;
-    if (p.type === 'photo') inner = `
-      ${gallery(p.images)}
-      ${p.caption ? `<div class="img-caption">${p.caption}</div>` : ''}`;
-    if (p.type === 'video') inner = `
-      <div class="video-wrap"><iframe src="${p.embedUrl}" allowfullscreen loading="lazy"></iframe></div>
-      ${p.caption ? `<div class="img-caption">${p.caption}</div>` : ''}`;
-    if (p.type === 'instagram') inner = `
-      <div class="ig-wrap"><blockquote class="instagram-media" data-instgrm-permalink="${p.url}" data-instgrm-version="14" style="width:100%;max-width:480px;"></blockquote></div>
-      ${p.caption ? `<div class="img-caption">${p.caption}</div>` : ''}`;
+    if (p.type==='photo') inner=`${gallery(p.images)}${p.caption?`<div class="img-caption">${p.caption}</div>`:''}`;
+    if (p.type==='video') inner=`<div class="video-wrap"><iframe src="${p.embedUrl}" allowfullscreen loading="lazy"></iframe></div>${p.caption?`<div class="img-caption">${p.caption}</div>`:''}`;
+    if (p.type==='instagram') inner=`<div class="ig-wrap"><blockquote class="instagram-media" data-instgrm-permalink="${p.url}" data-instgrm-version="14" style="width:100%;max-width:480px;"></blockquote></div>${p.caption?`<div class="img-caption">${p.caption}</div>`:''}`;
 
     return `<div class="post-card" style="animation-delay:${i*0.06}s">
       <div class="card-header">
@@ -357,21 +437,12 @@ function render() {
   if (window.instgrm) window.instgrm.Embeds.process();
 }
 
-function openLb(src) {
-  document.getElementById('lb-img').src = src;
-  document.getElementById('lightbox').classList.add('open');
-  document.body.style.overflow = 'hidden';
-}
-function closeLb() {
-  document.getElementById('lightbox').classList.remove('open');
-  document.body.style.overflow = '';
-}
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') closeLb();
-  if ((e.ctrlKey||e.metaKey) && e.key==='Enter') pub(curTab);
-});
+// ── LIGHTBOX ──
+function openLb(src){document.getElementById('lb-img').src=src;document.getElementById('lightbox').classList.add('open');document.body.style.overflow='hidden';}
+function closeLb(){document.getElementById('lightbox').classList.remove('open');document.body.style.overflow='';}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLb();});
 
-render();
+loadPosts();
 </script>
 </body>
 </html>
