@@ -16,6 +16,7 @@
 html{scroll-behavior:smooth;}
 body{background:var(--bg);color:var(--text);font-family:'Nunito',sans-serif;font-weight:300;min-height:100vh;}
 
+/* HERO */
 .hero{background:var(--white);border-bottom:1px solid var(--border);padding:64px 24px 52px;text-align:center;position:relative;overflow:hidden;}
 .hero::before{content:'';position:absolute;top:-60px;left:50%;transform:translateX(-50%);width:500px;height:300px;background:radial-gradient(ellipse,rgba(212,131,106,0.12) 0%,transparent 70%);pointer-events:none;}
 .hero-tag{display:inline-block;font-size:0.65rem;letter-spacing:4px;text-transform:uppercase;color:var(--rose);border:1px solid var(--border);padding:5px 14px;border-radius:20px;margin-bottom:24px;animation:fadeUp 0.8s ease both;}
@@ -27,10 +28,37 @@ body{background:var(--bg);color:var(--text);font-family:'Nunito',sans-serif;font
 .pill:hover{background:var(--rose);color:white;border-color:var(--rose);transform:translateY(-2px);box-shadow:0 6px 20px rgba(212,131,106,0.25);}
 .pill svg{width:14px;height:14px;fill:currentColor;flex-shrink:0;}
 
+/* SECRET TRIGGER — tiny dot bottom right of hero */
+.secret-btn{position:absolute;bottom:12px;right:16px;width:10px;height:10px;border-radius:50%;background:transparent;border:none;cursor:pointer;opacity:0;transition:opacity 0.3s;}
+.secret-btn:hover{opacity:0.3;background:var(--rose);}
+
+/* ADMIN BADGE */
+.admin-bar{display:none;background:var(--nude-dim);border-bottom:1px solid var(--border);padding:8px 24px;text-align:center;font-size:0.72rem;color:var(--rose);letter-spacing:1px;}
+.admin-bar.show{display:flex;align-items:center;justify-content:center;gap:12px;}
+.btn-logout{background:none;border:1px solid var(--border);border-radius:20px;padding:3px 12px;font-size:0.65rem;color:var(--muted);cursor:pointer;font-family:'Nunito',sans-serif;transition:all 0.2s;}
+.btn-logout:hover{border-color:var(--rose);color:var(--rose);}
+
+/* LOGIN MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(45,36,32,0.5);backdrop-filter:blur(4px);z-index:1000;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.3s;}
+.modal-overlay.open{opacity:1;pointer-events:all;}
+.modal{background:var(--white);border-radius:20px;padding:36px 32px;width:100%;max-width:360px;box-shadow:0 20px 60px rgba(212,131,106,0.2);animation:fadeUp 0.3s ease both;text-align:center;}
+.modal h2{font-family:'Libre Baskerville',serif;font-size:1.3rem;font-weight:400;color:var(--text);margin-bottom:6px;}
+.modal p{font-size:0.8rem;color:var(--muted);margin-bottom:24px;}
+.modal input{width:100%;padding:13px 16px;background:var(--bg);border:1px solid var(--border);border-radius:10px;font-family:'Nunito',sans-serif;font-size:0.9rem;color:var(--text);outline:none;text-align:center;letter-spacing:2px;transition:border-color 0.2s;}
+.modal input:focus{border-color:var(--rose-light);}
+.modal input.error{border-color:#e74c3c;animation:shake 0.3s ease;}
+.btn-login{width:100%;margin-top:14px;padding:13px;background:linear-gradient(135deg,var(--rose),#c07060);color:white;border:none;border-radius:30px;font-family:'Nunito',sans-serif;font-size:0.8rem;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;transition:all 0.2s;box-shadow:0 4px 16px rgba(212,131,106,0.3);}
+.btn-login:hover{transform:translateY(-1px);}
+.modal-close{position:absolute;top:16px;right:20px;background:none;border:none;font-size:1.4rem;color:var(--muted);cursor:pointer;line-height:1;}
+
+@keyframes shake{0%,100%{transform:translateX(0);}25%{transform:translateX(-6px);}75%{transform:translateX(6px);}}
+
+/* PAGE */
 .page{max-width:780px;margin:0 auto;padding:48px 20px 100px;}
 
-/* COMPOSER */
-.composer{background:var(--white);border:1px solid var(--border);border-radius:16px;padding:28px;margin-bottom:48px;box-shadow:var(--shadow);}
+/* COMPOSER — hidden by default */
+.composer{background:var(--white);border:1px solid var(--border);border-radius:16px;padding:28px;margin-bottom:48px;box-shadow:var(--shadow);display:none;}
+.composer.show{display:block;}
 .composer-head{font-family:'Libre Baskerville',serif;font-size:1rem;font-weight:400;color:var(--rose);margin-bottom:18px;}
 .type-row{display:flex;gap:6px;margin-bottom:18px;flex-wrap:wrap;}
 .tab-btn{padding:7px 16px;background:var(--bg);border:1px solid var(--border);border-radius:20px;font-family:'Nunito',sans-serif;font-size:0.72rem;font-weight:500;letter-spacing:1px;color:var(--muted);cursor:pointer;transition:all 0.2s;}
@@ -49,31 +77,25 @@ textarea{resize:vertical;min-height:100px;}
 .upload-icon{font-size:2rem;margin-bottom:8px;}
 .upload-zone p{font-size:0.8rem;color:var(--muted);}
 .upload-zone span{font-size:0.7rem;color:var(--rose-light);display:block;margin-top:4px;}
-
 .img-previews{display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:8px;margin-top:4px;}
 .img-preview-item{position:relative;aspect-ratio:1;border-radius:8px;overflow:hidden;}
 .img-preview-item img{width:100%;height:100%;object-fit:cover;}
-.img-preview-item .rm{position:absolute;top:4px;right:4px;width:22px;height:22px;background:rgba(0,0,0,0.55);border:none;border-radius:50%;color:white;font-size:0.7rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background 0.2s;}
+.img-preview-item .rm{position:absolute;top:4px;right:4px;width:22px;height:22px;background:rgba(0,0,0,0.55);border:none;border-radius:50%;color:white;font-size:0.7rem;cursor:pointer;display:flex;align-items:center;justify-content:center;}
 .img-preview-item .rm:hover{background:var(--rose);}
 
 .btn-post{align-self:flex-end;padding:12px 28px;background:linear-gradient(135deg,var(--rose),#c07060);color:white;border:none;border-radius:30px;font-family:'Nunito',sans-serif;font-size:0.78rem;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;transition:all 0.2s;box-shadow:0 4px 16px rgba(212,131,106,0.3);display:flex;align-items:center;gap:8px;}
-.btn-post:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(212,131,106,0.35);}
+.btn-post:hover{transform:translateY(-2px);}
 .btn-post:disabled{opacity:0.6;cursor:not-allowed;transform:none;}
-
-/* SPINNER */
 .spin{width:14px;height:14px;border:2px solid rgba(255,255,255,0.4);border-top-color:white;border-radius:50%;animation:spin 0.7s linear infinite;display:none;}
 .btn-post.loading .spin{display:block;}
 
 /* FEED */
 #feed{display:flex;flex-direction:column;}
-
-/* LOADING FEED */
 .feed-loading{text-align:center;padding:60px 20px;color:var(--muted);}
-.feed-loading .dots{display:inline-flex;gap:6px;margin-top:12px;}
-.feed-loading .dot{width:8px;height:8px;border-radius:50%;background:var(--rose-light);animation:bounce 1.2s ease-in-out infinite;}
-.feed-loading .dot:nth-child(2){animation-delay:0.2s;}
-.feed-loading .dot:nth-child(3){animation-delay:0.4s;}
-@keyframes bounce{0%,80%,100%{transform:scale(0.6);opacity:0.4;}40%{transform:scale(1);opacity:1;}}
+.dots{display:inline-flex;gap:6px;margin-top:12px;}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--rose-light);animation:bounce 1.2s ease-in-out infinite;}
+.dot:nth-child(2){animation-delay:0.2s;}
+.dot:nth-child(3){animation-delay:0.4s;}
 
 .post-card{background:var(--white);border:1px solid var(--border);border-radius:16px;overflow:hidden;margin-bottom:24px;box-shadow:var(--shadow);animation:fadeUp 0.5s ease both;transition:transform 0.2s,box-shadow 0.2s;}
 .post-card:hover{transform:translateY(-2px);box-shadow:0 8px 48px rgba(212,131,106,0.12);}
@@ -84,8 +106,9 @@ textarea{resize:vertical;min-height:100px;}
 .card-date{font-size:0.7rem;color:var(--muted);margin-top:1px;}
 .card-actions{display:flex;gap:6px;align-items:center;}
 .type-chip{font-size:0.6rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--rose);background:var(--nude-dim);padding:3px 10px;border-radius:20px;border:1px solid var(--border);}
-.btn-del{background:none;border:none;color:var(--muted);cursor:pointer;font-size:0.75rem;padding:4px 8px;border-radius:6px;transition:all 0.2s;font-family:'Nunito',sans-serif;}
+.btn-del{display:none;background:none;border:none;color:var(--muted);cursor:pointer;font-size:0.75rem;padding:4px 8px;border-radius:6px;transition:all 0.2s;font-family:'Nunito',sans-serif;}
 .btn-del:hover{background:#fee;color:#c0392b;}
+.is-admin .btn-del{display:inline-block;}
 
 .card-body{padding:16px 20px 20px;}
 .post-title{font-family:'Libre Baskerville',serif;font-size:1.25rem;font-weight:400;color:var(--text);margin-bottom:10px;line-height:1.4;}
@@ -121,16 +144,18 @@ textarea{resize:vertical;min-height:100px;}
 
 @keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
 @keyframes spin{to{transform:rotate(360deg);}}
-
-@media(max-width:600px){
-  .page{padding:24px 14px 80px;}
-  .composer{padding:20px;}
-  .gallery-3,.gallery-4{max-height:260px;}
-}
+@keyframes bounce{0%,80%,100%{transform:scale(0.6);opacity:0.4;}40%{transform:scale(1);opacity:1;}}
 </style>
 </head>
 <body>
 
+<!-- ADMIN BAR -->
+<div class="admin-bar" id="admin-bar">
+  ✦ Chế độ Admin đang bật
+  <button class="btn-logout" onclick="logout()">Đăng xuất</button>
+</div>
+
+<!-- HERO -->
 <header class="hero">
   <div class="hero-tag">✦ Personal Blog</div>
   <h1 class="hero-name">Hoài <em>Thương</em> · Louisa</h1>
@@ -149,10 +174,24 @@ textarea{resize:vertical;min-height:100px;}
       TikTok
     </a>
   </div>
+  <!-- SECRET BUTTON — invisible dot, bottom-right corner -->
+  <button class="secret-btn" onclick="openLogin()" title=""></button>
 </header>
 
+<!-- LOGIN MODAL -->
+<div class="modal-overlay" id="modal">
+  <div class="modal" style="position:relative;">
+    <button class="modal-close" onclick="closeLogin()">×</button>
+    <h2>Xin chào 🌸</h2>
+    <p>Nhập mật khẩu để vào chế độ quản lý</p>
+    <input type="password" id="pw-input" placeholder="••••••••" onkeydown="if(event.key==='Enter')tryLogin()"/>
+    <button class="btn-login" onclick="tryLogin()">Đăng nhập</button>
+  </div>
+</div>
+
 <div class="page">
-  <div class="composer">
+  <!-- COMPOSER — only visible to admin -->
+  <div class="composer" id="composer">
     <div class="composer-head">✦ Thêm bài mới</div>
     <div class="type-row">
       <button class="tab-btn on" onclick="setTab('text')">✍️ Viết</button>
@@ -164,9 +203,7 @@ textarea{resize:vertical;min-height:100px;}
     <div class="fields on" id="f-text">
       <input type="text" id="t-title" placeholder="Tiêu đề bài viết..."/>
       <textarea id="t-body" rows="4" placeholder="Kể gì đó cho mọi người nghe nhé 🌸"></textarea>
-      <button class="btn-post" id="btn-text" onclick="pub('text')">
-        <div class="spin"></div>Đăng bài →
-      </button>
+      <button class="btn-post" id="btn-text" onclick="pub('text')"><div class="spin"></div>Đăng bài →</button>
     </div>
 
     <div class="fields" id="f-photo">
@@ -178,25 +215,19 @@ textarea{resize:vertical;min-height:100px;}
       </div>
       <div class="img-previews" id="previews"></div>
       <input type="text" id="p-caption" placeholder="Caption cho ảnh (tuỳ chọn)..."/>
-      <button class="btn-post" id="btn-photo" onclick="pub('photo')">
-        <div class="spin"></div>Đăng ảnh →
-      </button>
+      <button class="btn-post" id="btn-photo" onclick="pub('photo')"><div class="spin"></div>Đăng ảnh →</button>
     </div>
 
     <div class="fields" id="f-video">
       <input type="url" id="v-url" placeholder="Link YouTube hoặc Vimeo..."/>
       <input type="text" id="v-caption" placeholder="Caption (tuỳ chọn)..."/>
-      <button class="btn-post" id="btn-video" onclick="pub('video')">
-        <div class="spin"></div>Đăng video →
-      </button>
+      <button class="btn-post" id="btn-video" onclick="pub('video')"><div class="spin"></div>Đăng video →</button>
     </div>
 
     <div class="fields" id="f-instagram">
       <input type="url" id="ig-url" placeholder="https://www.instagram.com/p/..."/>
       <input type="text" id="ig-caption" placeholder="Caption (tuỳ chọn)..."/>
-      <button class="btn-post" id="btn-instagram" onclick="pub('instagram')">
-        <div class="spin"></div>Đăng →
-      </button>
+      <button class="btn-post" id="btn-instagram" onclick="pub('instagram')"><div class="spin"></div>Đăng →</button>
     </div>
   </div>
 
@@ -216,38 +247,69 @@ textarea{resize:vertical;min-height:100px;}
 
 <script async src="//www.instagram.com/embed.js"></script>
 <script>
-// ── CONFIG ──
 const JSONBIN_ID  = '6a041de3c0954111d817517c';
 const JSONBIN_KEY = '$2a$10$odVrl4MhNahAj3DDsujeUuhSu.y7uTksyZHKtsa5UDhe.CaudawLi';
 const CDN_CLOUD   = 'dffjnmuq4';
 const CDN_PRESET  = 'pcdnav5l';
+const ADMIN_PASS  = 'Thuong@9090@';
 const BIN_URL     = `https://api.jsonbin.io/v3/b/${JSONBIN_ID}`;
 
 let posts = [];
-let pending = []; // {file, previewUrl}
+let pending = [];
 let curTab = 'text';
+let isAdmin = sessionStorage.getItem('louisa_admin') === '1';
+
+// ── AUTH ──
+function openLogin() {
+  document.getElementById('modal').classList.add('open');
+  setTimeout(() => document.getElementById('pw-input').focus(), 100);
+}
+function closeLogin() {
+  document.getElementById('modal').classList.remove('open');
+  document.getElementById('pw-input').value = '';
+  document.getElementById('pw-input').classList.remove('error');
+}
+function tryLogin() {
+  const pw = document.getElementById('pw-input').value;
+  if (pw === ADMIN_PASS) {
+    isAdmin = true;
+    sessionStorage.setItem('louisa_admin', '1');
+    closeLogin();
+    applyAdminUI();
+    toast('Chào mừng trở lại Thương 🌸');
+  } else {
+    const inp = document.getElementById('pw-input');
+    inp.classList.add('error');
+    inp.value = '';
+    setTimeout(() => inp.classList.remove('error'), 600);
+  }
+}
+function logout() {
+  isAdmin = false;
+  sessionStorage.removeItem('louisa_admin');
+  applyAdminUI();
+  toast('Đã đăng xuất');
+}
+function applyAdminUI() {
+  document.getElementById('composer').classList.toggle('show', isAdmin);
+  document.getElementById('admin-bar').classList.toggle('show', isAdmin);
+  document.body.classList.toggle('is-admin', isAdmin);
+  render();
+}
 
 // ── JSONBIN ──
 async function loadPosts() {
   try {
-    const res = await fetch(BIN_URL + '/latest', {
-      headers: { 'X-Master-Key': JSONBIN_KEY }
-    });
+    const res = await fetch(BIN_URL + '/latest', { headers: { 'X-Master-Key': JSONBIN_KEY } });
     const data = await res.json();
     posts = Array.isArray(data.record) ? data.record : [];
-  } catch(e) {
-    posts = [];
-  }
+  } catch(e) { posts = []; }
   render();
 }
-
 async function savePosts() {
   await fetch(BIN_URL, {
     method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-      'X-Master-Key': JSONBIN_KEY
-    },
+    headers: { 'Content-Type': 'application/json', 'X-Master-Key': JSONBIN_KEY },
     body: JSON.stringify(posts)
   });
 }
@@ -257,9 +319,7 @@ async function uploadToCloud(file) {
   const fd = new FormData();
   fd.append('file', file);
   fd.append('upload_preset', CDN_PRESET);
-  const res = await fetch(`https://api.cloudinary.com/v1_1/${CDN_CLOUD}/image/upload`, {
-    method: 'POST', body: fd
-  });
+  const res = await fetch(`https://api.cloudinary.com/v1_1/${CDN_CLOUD}/image/upload`, { method:'POST', body:fd });
   const data = await res.json();
   return data.secure_url;
 }
@@ -273,7 +333,7 @@ function setTab(t) {
   document.getElementById('f-'+t).classList.add('on');
 }
 
-// ── FILE PREVIEW ──
+// ── FILE UPLOAD ──
 function handleFiles(files) {
   Array.from(files).forEach(file => {
     const url = URL.createObjectURL(file);
@@ -281,22 +341,19 @@ function handleFiles(files) {
     renderPreviews();
   });
 }
-
 function renderPreviews() {
-  document.getElementById('previews').innerHTML = pending.map((item, i) => `
+  document.getElementById('previews').innerHTML = pending.map((item,i) => `
     <div class="img-preview-item">
       <img src="${item.previewUrl}"/>
       <button class="rm" onclick="removePending(${i})">×</button>
     </div>`).join('');
 }
-
 function removePending(i) {
   URL.revokeObjectURL(pending[i].previewUrl);
   pending.splice(i, 1);
   renderPreviews();
 }
 
-// DRAG DROP
 const dz = document.getElementById('dropzone');
 dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('drag'); });
 dz.addEventListener('dragleave', () => dz.classList.remove('drag'));
@@ -307,81 +364,66 @@ function ytId(u){const m=u.match(/(?:youtu\.be\/|youtube\.com(?:\/embed\/|\/v\/|
 function vmId(u){const m=u.match(/vimeo\.com\/(\d+)/);return m?m[1]:null;}
 function igClean(u){const m=u.match(/instagram\.com\/(p|reel)\/([A-Za-z0-9_-]+)/);return m?`https://www.instagram.com/${m[1]}/${m[2]}/`:null;}
 function today(){return new Date().toLocaleDateString('vi-VN',{day:'2-digit',month:'2-digit',year:'numeric'});}
-
-function toast(msg, dur=2500) {
-  const t = document.getElementById('toast');
-  t.textContent = msg; t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), dur);
-}
-
-function setLoading(tab, on) {
-  const btn = document.getElementById('btn-'+tab);
-  btn.classList.toggle('loading', on);
-  btn.disabled = on;
-}
+function toast(msg,dur=2500){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),dur);}
+function setLoading(tab,on){const b=document.getElementById('btn-'+tab);b.classList.toggle('loading',on);b.disabled=on;}
 
 // ── PUBLISH ──
 async function pub(type) {
+  if (!isAdmin) return;
   let p = { type, id: Date.now(), date: today() };
   setLoading(type, true);
-
   try {
-    if (type === 'text') {
-      const title = document.getElementById('t-title').value.trim();
-      const body  = document.getElementById('t-body').value.trim();
-      if (!body && !title) { toast('Viết gì đó đi bạn ơi 🌸'); return; }
-      p.title = title; p.body = body;
-      document.getElementById('t-title').value = '';
-      document.getElementById('t-body').value = '';
+    if (type==='text') {
+      const title=document.getElementById('t-title').value.trim();
+      const body=document.getElementById('t-body').value.trim();
+      if (!body&&!title){toast('Viết gì đó đi bạn ơi 🌸');return;}
+      p.title=title;p.body=body;
+      document.getElementById('t-title').value='';
+      document.getElementById('t-body').value='';
     }
-
-    if (type === 'photo') {
-      if (!pending.length) { toast('Chọn ảnh trước nhé!'); return; }
-      toast('Đang upload ảnh lên cloud... ☁️', 10000);
-      const urls = await Promise.all(pending.map(item => uploadToCloud(item.file)));
-      p.images = urls;
-      p.caption = document.getElementById('p-caption').value.trim();
-      pending.forEach(item => URL.revokeObjectURL(item.previewUrl));
-      pending = []; renderPreviews();
-      document.getElementById('p-caption').value = '';
-      document.getElementById('file-input').value = '';
+    if (type==='photo') {
+      if (!pending.length){toast('Chọn ảnh trước nhé!');return;}
+      toast('Đang upload ảnh lên cloud... ☁️',10000);
+      const urls=await Promise.all(pending.map(item=>uploadToCloud(item.file)));
+      p.images=urls;
+      p.caption=document.getElementById('p-caption').value.trim();
+      pending.forEach(item=>URL.revokeObjectURL(item.previewUrl));
+      pending=[];renderPreviews();
+      document.getElementById('p-caption').value='';
+      document.getElementById('file-input').value='';
     }
-
-    if (type === 'video') {
-      const url = document.getElementById('v-url').value.trim();
-      const yt = ytId(url), vm = vmId(url);
-      if (!yt && !vm) { toast('Chỉ hỗ trợ YouTube và Vimeo!'); return; }
-      p.embedUrl = yt ? `https://www.youtube.com/embed/${yt}` : `https://player.vimeo.com/video/${vm}`;
-      p.caption = document.getElementById('v-caption').value.trim();
-      document.getElementById('v-url').value = '';
-      document.getElementById('v-caption').value = '';
+    if (type==='video') {
+      const url=document.getElementById('v-url').value.trim();
+      const yt=ytId(url),vm=vmId(url);
+      if (!yt&&!vm){toast('Chỉ hỗ trợ YouTube và Vimeo!');return;}
+      p.embedUrl=yt?`https://www.youtube.com/embed/${yt}`:`https://player.vimeo.com/video/${vm}`;
+      p.caption=document.getElementById('v-caption').value.trim();
+      document.getElementById('v-url').value='';
+      document.getElementById('v-caption').value='';
     }
-
-    if (type === 'instagram') {
-      const url = igClean(document.getElementById('ig-url').value.trim());
-      if (!url) { toast('Link Instagram không hợp lệ!'); return; }
-      p.url = url;
-      p.caption = document.getElementById('ig-caption').value.trim();
-      document.getElementById('ig-url').value = '';
-      document.getElementById('ig-caption').value = '';
+    if (type==='instagram') {
+      const url=igClean(document.getElementById('ig-url').value.trim());
+      if (!url){toast('Link Instagram không hợp lệ!');return;}
+      p.url=url;
+      p.caption=document.getElementById('ig-caption').value.trim();
+      document.getElementById('ig-url').value='';
+      document.getElementById('ig-caption').value='';
     }
-
     posts.unshift(p);
     await savePosts();
     render();
     toast('Đã đăng thành công 🌸');
-    setTimeout(() => { if (window.instgrm) window.instgrm.Embeds.process(); }, 400);
-
+    setTimeout(()=>{if(window.instgrm)window.instgrm.Embeds.process();},400);
   } catch(err) {
     toast('Có lỗi xảy ra, thử lại nhé!');
-    console.error(err);
   } finally {
-    setLoading(type, false);
+    setLoading(type,false);
   }
 }
 
 async function delPost(id) {
-  posts = posts.filter(p => p.id !== id);
+  if (!isAdmin) return;
+  posts=posts.filter(p=>p.id!==id);
   await savePosts();
   render();
   toast('Đã xoá');
@@ -389,15 +431,15 @@ async function delPost(id) {
 
 // ── GALLERY ──
 function gallery(images) {
-  const n = images.length;
-  const img = src => `<img src="${src}" alt="" loading="lazy" onclick="openLb('${src}')" style="cursor:zoom-in;"/>`;
-  if (n===1) return `<div class="gallery-1">${img(images[0])}</div>`;
-  if (n===2) return `<div class="gallery-2">${images.map(img).join('')}</div>`;
-  if (n===3) return `<div class="gallery-3">${images.map(img).join('')}</div>`;
-  if (n===4) return `<div class="gallery-4">${images.map(img).join('')}</div>`;
-  return `<div class="gallery-many">${images.slice(0,9).map((src,i) => {
-    const extra = (i===8&&n>9)?`<div style="position:absolute;inset:0;background:rgba(0,0,0,0.45);display:flex;align-items:center;justify-content:center;color:white;font-size:1.4rem;font-family:'Libre Baskerville',serif;font-style:italic;">+${n-9}</div>`:'';
-    return `<div style="position:relative;overflow:hidden;">${img(src)}${extra}</div>`;
+  const n=images.length;
+  const img=src=>`<img src="${src}" alt="" loading="lazy" onclick="openLb('${src}')" style="cursor:zoom-in;"/>`;
+  if(n===1)return`<div class="gallery-1">${img(images[0])}</div>`;
+  if(n===2)return`<div class="gallery-2">${images.map(img).join('')}</div>`;
+  if(n===3)return`<div class="gallery-3">${images.map(img).join('')}</div>`;
+  if(n===4)return`<div class="gallery-4">${images.map(img).join('')}</div>`;
+  return`<div class="gallery-many">${images.slice(0,9).map((src,i)=>{
+    const extra=(i===8&&n>9)?`<div style="position:absolute;inset:0;background:rgba(0,0,0,0.45);display:flex;align-items:center;justify-content:center;color:white;font-size:1.4rem;font-family:'Libre Baskerville',serif;font-style:italic;">+${n-9}</div>`:'';
+    return`<div style="position:relative;overflow:hidden;">${img(src)}${extra}</div>`;
   }).join('')}</div>`;
 }
 
@@ -405,22 +447,18 @@ function typeLabel(t){return{text:'Bài viết',photo:'Ảnh',video:'Video',inst
 
 // ── RENDER ──
 function render() {
-  const feed = document.getElementById('feed');
-  if (!posts.length) {
-    feed.innerHTML = `<div class="empty"><div class="empty-icon">🌸</div><p>Blog của bạn đang trống...</p><small>Thêm bài viết đầu tiên bằng form phía trên nhé!</small></div>`;
+  const feed=document.getElementById('feed');
+  if(!posts.length){
+    feed.innerHTML=`<div class="empty"><div class="empty-icon">🌸</div><p>Blog đang trống...</p><small>Chưa có bài viết nào cả!</small></div>`;
     return;
   }
-  feed.innerHTML = posts.map((p,i) => {
-    let inner = '';
-    if (p.type==='text') inner=`<div class="card-body">
-      ${p.title?`<div class="post-title">${p.title}</div>`:''}
-      ${p.body?`<div class="post-text">${p.body.replace(/\n/g,'<br/>')}</div>`:''}
-    </div>`;
-    if (p.type==='photo') inner=`${gallery(p.images)}${p.caption?`<div class="img-caption">${p.caption}</div>`:''}`;
-    if (p.type==='video') inner=`<div class="video-wrap"><iframe src="${p.embedUrl}" allowfullscreen loading="lazy"></iframe></div>${p.caption?`<div class="img-caption">${p.caption}</div>`:''}`;
-    if (p.type==='instagram') inner=`<div class="ig-wrap"><blockquote class="instagram-media" data-instgrm-permalink="${p.url}" data-instgrm-version="14" style="width:100%;max-width:480px;"></blockquote></div>${p.caption?`<div class="img-caption">${p.caption}</div>`:''}`;
-
-    return `<div class="post-card" style="animation-delay:${i*0.06}s">
+  feed.innerHTML=posts.map((p,i)=>{
+    let inner='';
+    if(p.type==='text')inner=`<div class="card-body">${p.title?`<div class="post-title">${p.title}</div>`:''}${p.body?`<div class="post-text">${p.body.replace(/\n/g,'<br/>')}</div>`:''}</div>`;
+    if(p.type==='photo')inner=`${gallery(p.images)}${p.caption?`<div class="img-caption">${p.caption}</div>`:''}`;
+    if(p.type==='video')inner=`<div class="video-wrap"><iframe src="${p.embedUrl}" allowfullscreen loading="lazy"></iframe></div>${p.caption?`<div class="img-caption">${p.caption}</div>`:''}`;
+    if(p.type==='instagram')inner=`<div class="ig-wrap"><blockquote class="instagram-media" data-instgrm-permalink="${p.url}" data-instgrm-version="14" style="width:100%;max-width:480px;"></blockquote></div>${p.caption?`<div class="img-caption">${p.caption}</div>`:''}`;
+    return`<div class="post-card" style="animation-delay:${i*0.06}s">
       <div class="card-header">
         <div class="card-meta">
           <div class="avatar">L</div>
@@ -430,18 +468,20 @@ function render() {
           <span class="type-chip">${typeLabel(p.type)}</span>
           <button class="btn-del" onclick="delPost(${p.id})">× xoá</button>
         </div>
-      </div>
-      ${inner}
-    </div>`;
+      </div>${inner}</div>`;
   }).join('');
-  if (window.instgrm) window.instgrm.Embeds.process();
+  if(window.instgrm)window.instgrm.Embeds.process();
 }
 
 // ── LIGHTBOX ──
 function openLb(src){document.getElementById('lb-img').src=src;document.getElementById('lightbox').classList.add('open');document.body.style.overflow='hidden';}
 function closeLb(){document.getElementById('lightbox').classList.remove('open');document.body.style.overflow='';}
-document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLb();});
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'){closeLb();closeLogin();}
+});
 
+// ── INIT ──
+applyAdminUI();
 loadPosts();
 </script>
 </body>
