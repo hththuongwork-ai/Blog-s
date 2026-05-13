@@ -1,707 +1,377 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Hoài Thương · Louisa</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet"/>
-  <style>
-    :root {
-      --bg: #0e0c0a;
-      --surface: #161310;
-      --surface2: #1e1a16;
-      --border: rgba(255,255,255,0.07);
-      --gold: #c9a96e;
-      --gold-dim: rgba(201,169,110,0.15);
-      --text: #e8e0d4;
-      --muted: #7a7060;
-      --accent: #e8c48a;
-    }
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Hoài Thương · Louisa</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Nunito:wght@200;300;400;500&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --bg: #fdf8f5;
+  --bg2: #faf3ee;
+  --rose: #d4836a;
+  --rose-light: #f2c4b0;
+  --nude: #e8c5b0;
+  --nude-dim: rgba(212,131,106,0.1);
+  --text: #2d2420;
+  --muted: #9e8880;
+  --border: rgba(212,131,106,0.18);
+  --white: #fffcfa;
+  --shadow: 0 4px 40px rgba(212,131,106,0.08);
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'Nunito',sans-serif;font-weight:300;min-height:100vh;}
 
-    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+/* HERO */
+.hero{background:var(--white);border-bottom:1px solid var(--border);padding:64px 24px 52px;text-align:center;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;top:-60px;left:50%;transform:translateX(-50%);width:500px;height:300px;background:radial-gradient(ellipse,rgba(212,131,106,0.12) 0%,transparent 70%);pointer-events:none;}
+.hero-tag{display:inline-block;font-size:0.65rem;letter-spacing:4px;text-transform:uppercase;color:var(--rose);border:1px solid var(--border);padding:5px 14px;border-radius:20px;margin-bottom:24px;animation:fadeUp 0.8s ease both;}
+.hero-name{font-family:'Libre Baskerville',serif;font-size:clamp(2.8rem,8vw,5.5rem);font-weight:400;line-height:1.05;animation:fadeUp 0.8s ease 0.1s both;}
+.hero-name em{font-style:italic;color:var(--rose);}
+.hero-bio{margin-top:16px;font-size:0.9rem;color:var(--muted);font-weight:300;letter-spacing:0.5px;animation:fadeUp 0.8s ease 0.2s both;}
+.social-pills{display:flex;justify-content:center;gap:10px;margin-top:28px;flex-wrap:wrap;animation:fadeUp 0.8s ease 0.3s both;}
+.pill{display:flex;align-items:center;gap:7px;text-decoration:none;color:var(--muted);font-size:0.72rem;font-weight:400;letter-spacing:1.5px;text-transform:uppercase;padding:9px 18px;border:1px solid var(--border);border-radius:30px;background:var(--white);transition:all 0.25s;}
+.pill:hover{background:var(--rose);color:white;border-color:var(--rose);transform:translateY(-2px);box-shadow:0 6px 20px rgba(212,131,106,0.25);}
+.pill svg{width:14px;height:14px;fill:currentColor;flex-shrink:0;}
 
-    html { scroll-behavior: smooth; }
+/* LAYOUT */
+.page{max-width:780px;margin:0 auto;padding:48px 20px 100px;}
 
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'Jost', sans-serif;
-      font-weight: 300;
-      min-height: 100vh;
-      cursor: default;
-    }
+/* COMPOSER */
+.composer{background:var(--white);border:1px solid var(--border);border-radius:16px;padding:28px;margin-bottom:48px;box-shadow:var(--shadow);}
+.composer-head{font-family:'Libre Baskerville',serif;font-size:1rem;font-weight:400;color:var(--rose);margin-bottom:18px;}
+.type-row{display:flex;gap:6px;margin-bottom:18px;flex-wrap:wrap;}
+.tab-btn{padding:7px 16px;background:var(--bg);border:1px solid var(--border);border-radius:20px;font-family:'Nunito',sans-serif;font-size:0.72rem;font-weight:500;letter-spacing:1px;color:var(--muted);cursor:pointer;transition:all 0.2s;}
+.tab-btn:hover{color:var(--rose);border-color:var(--rose-light);}
+.tab-btn.on{background:var(--rose);color:white;border-color:var(--rose);}
+.fields{display:none;flex-direction:column;gap:12px;}
+.fields.on{display:flex;}
+input[type=text],input[type=url],textarea{width:100%;padding:12px 16px;background:var(--bg);border:1px solid var(--border);border-radius:10px;font-family:'Nunito',sans-serif;font-size:0.875rem;font-weight:300;color:var(--text);outline:none;transition:border-color 0.2s,box-shadow 0.2s;}
+input:focus,textarea:focus{border-color:var(--rose-light);box-shadow:0 0 0 3px rgba(212,131,106,0.08);}
+input::placeholder,textarea::placeholder{color:var(--muted);opacity:0.6;}
+textarea{resize:vertical;min-height:100px;}
 
-    /* ── NOISE OVERLAY ── */
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
-      pointer-events: none;
-      z-index: 999;
-      opacity: 0.4;
-    }
+/* UPLOAD */
+.upload-zone{border:2px dashed var(--border);border-radius:12px;padding:32px 20px;text-align:center;cursor:pointer;transition:all 0.2s;background:var(--bg);position:relative;}
+.upload-zone:hover,.upload-zone.drag{border-color:var(--rose);background:var(--nude-dim);}
+.upload-zone input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
+.upload-icon{font-size:2rem;margin-bottom:8px;}
+.upload-zone p{font-size:0.8rem;color:var(--muted);}
+.upload-zone span{font-size:0.7rem;color:var(--rose-light);display:block;margin-top:4px;}
+.img-previews{display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:8px;margin-top:4px;}
+.img-preview-item{position:relative;aspect-ratio:1;border-radius:8px;overflow:hidden;}
+.img-preview-item img{width:100%;height:100%;object-fit:cover;}
+.img-preview-item button{position:absolute;top:4px;right:4px;width:22px;height:22px;background:rgba(0,0,0,0.55);border:none;border-radius:50%;color:white;font-size:0.7rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background 0.2s;}
+.img-preview-item button:hover{background:var(--rose);}
 
-    /* ── HERO ── */
-    .hero {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 60px 24px;
-      position: relative;
-      overflow: hidden;
-    }
+.btn-post{align-self:flex-end;padding:12px 28px;background:linear-gradient(135deg,var(--rose),#c07060);color:white;border:none;border-radius:30px;font-family:'Nunito',sans-serif;font-size:0.78rem;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;transition:all 0.2s;box-shadow:0 4px 16px rgba(212,131,106,0.3);}
+.btn-post:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(212,131,106,0.35);}
+.btn-post:active{transform:translateY(0);}
 
-    .hero::before {
-      content: '';
-      position: absolute;
-      top: -20%;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 600px;
-      height: 600px;
-      background: radial-gradient(ellipse, rgba(201,169,110,0.08) 0%, transparent 70%);
-      pointer-events: none;
-    }
+/* FEED */
+#feed{display:flex;flex-direction:column;gap:0;}
+.post-card{background:var(--white);border:1px solid var(--border);border-radius:16px;overflow:hidden;margin-bottom:24px;box-shadow:var(--shadow);animation:fadeUp 0.5s ease both;transition:transform 0.2s,box-shadow 0.2s;}
+.post-card:hover{transform:translateY(-2px);box-shadow:0 8px 48px rgba(212,131,106,0.12);}
+.card-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px 0;}
+.card-meta{display:flex;align-items:center;gap:10px;}
+.avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--nude),var(--rose-light));display:flex;align-items:center;justify-content:center;font-family:'Libre Baskerville',serif;font-style:italic;font-size:0.9rem;color:var(--rose);flex-shrink:0;}
+.card-author{font-size:0.82rem;font-weight:500;color:var(--text);}
+.card-date{font-size:0.7rem;color:var(--muted);margin-top:1px;}
+.card-actions{display:flex;gap:6px;align-items:center;}
+.type-chip{font-size:0.6rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--rose);background:var(--nude-dim);padding:3px 10px;border-radius:20px;border:1px solid var(--border);}
+.btn-del{background:none;border:none;color:var(--muted);cursor:pointer;font-size:0.75rem;padding:4px 8px;border-radius:6px;transition:all 0.2s;font-family:'Nunito',sans-serif;}
+.btn-del:hover{background:#fee;color:#c0392b;}
 
-    .hero-eyebrow {
-      font-family: 'Jost', sans-serif;
-      font-weight: 200;
-      font-size: 0.7rem;
-      letter-spacing: 6px;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 28px;
-      animation: fadeDown 1s ease both;
-    }
+/* TEXT */
+.card-body{padding:16px 20px 20px;}
+.post-title{font-family:'Libre Baskerville',serif;font-size:1.25rem;font-weight:400;color:var(--text);margin-bottom:10px;line-height:1.4;}
+.post-text{font-size:0.9rem;line-height:1.8;color:#5a4a44;font-weight:300;}
 
-    .hero-name {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(3.5rem, 10vw, 8rem);
-      font-weight: 300;
-      line-height: 0.9;
-      letter-spacing: -2px;
-      animation: fadeDown 1s ease 0.15s both;
-    }
+/* GALLERIES */
+.gallery-1 img{width:100%;max-height:480px;object-fit:cover;display:block;}
+.gallery-2{display:grid;grid-template-columns:1fr 1fr;gap:2px;}
+.gallery-3{display:grid;grid-template-columns:2fr 1fr;grid-template-rows:1fr 1fr;gap:2px;max-height:400px;}
+.gallery-3 img:first-child{grid-row:span 2;}
+.gallery-4{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:2px;max-height:440px;}
+.gallery-many{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;}
+.gallery-2 img,.gallery-3 img,.gallery-4 img,.gallery-many img{width:100%;height:100%;object-fit:cover;display:block;}
+.gallery-many img{aspect-ratio:1;}
+.img-caption{padding:12px 20px 16px;font-size:0.82rem;color:var(--muted);font-style:italic;font-family:'Libre Baskerville',serif;}
 
-    .hero-name em {
-      font-style: italic;
-      color: var(--gold);
-    }
+/* VIDEO */
+.video-wrap{position:relative;padding-bottom:56.25%;height:0;overflow:hidden;}
+.video-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:none;}
 
-    .hero-sub {
-      margin-top: 28px;
-      font-size: 0.85rem;
-      font-weight: 200;
-      color: var(--muted);
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      animation: fadeDown 1s ease 0.3s both;
-    }
+/* INSTAGRAM */
+.ig-wrap{padding:0 20px 20px;display:flex;justify-content:center;}
+.instagram-media{min-width:unset!important;width:100%!important;max-width:480px!important;border-radius:12px!important;}
 
-    /* SOCIAL LINKS */
-    .social-row {
-      display: flex;
-      gap: 24px;
-      margin-top: 48px;
-      animation: fadeDown 1s ease 0.45s both;
-    }
+/* EMPTY */
+.empty{text-align:center;padding:80px 20px;color:var(--muted);}
+.empty-icon{font-size:3rem;margin-bottom:16px;opacity:0.4;}
+.empty p{font-family:'Libre Baskerville',serif;font-style:italic;font-size:1.1rem;margin-bottom:6px;}
+.empty small{font-size:0.75rem;opacity:0.6;}
 
-    .social-link {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      text-decoration: none;
-      color: var(--muted);
-      font-size: 0.75rem;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      font-weight: 400;
-      transition: color 0.3s;
-      padding: 10px 0;
-      border-bottom: 1px solid transparent;
-    }
+/* TOAST */
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--text);color:var(--white);padding:11px 22px;border-radius:30px;font-size:0.78rem;letter-spacing:0.5px;opacity:0;transition:all 0.3s;pointer-events:none;z-index:9999;white-space:nowrap;}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 
-    .social-link:hover {
-      color: var(--gold);
-      border-bottom-color: var(--gold-dim);
-    }
+/* LIGHTBOX */
+.lightbox{position:fixed;inset:0;background:rgba(0,0,0,0.88);display:flex;align-items:center;justify-content:center;z-index:9999;opacity:0;pointer-events:none;transition:opacity 0.3s;}
+.lightbox.open{opacity:1;pointer-events:all;}
+.lightbox img{max-width:90vw;max-height:90vh;object-fit:contain;border-radius:4px;}
+.lightbox-close{position:absolute;top:20px;right:24px;background:none;border:none;color:white;font-size:2rem;cursor:pointer;line-height:1;}
 
-    .social-link svg {
-      width: 16px;
-      height: 16px;
-      fill: currentColor;
-    }
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
 
-    .scroll-hint {
-      position: absolute;
-      bottom: 40px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
-      color: var(--muted);
-      font-size: 0.65rem;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      animation: fadeDown 1s ease 0.7s both;
-    }
-
-    .scroll-hint::after {
-      content: '';
-      width: 1px;
-      height: 40px;
-      background: linear-gradient(to bottom, var(--muted), transparent);
-      animation: scrollLine 2s ease-in-out infinite;
-    }
-
-    @keyframes scrollLine {
-      0%, 100% { opacity: 0.3; transform: scaleY(1); }
-      50% { opacity: 1; transform: scaleY(1.2); }
-    }
-
-    /* ── MAIN CONTENT ── */
-    main {
-      max-width: 860px;
-      margin: 0 auto;
-      padding: 0 24px 120px;
-    }
-
-    /* ── SECTION BUILDER ── */
-    .builder {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 2px;
-      padding: 32px;
-      margin-bottom: 60px;
-      position: sticky;
-      top: 20px;
-      z-index: 10;
-    }
-
-    .builder-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.1rem;
-      font-weight: 400;
-      color: var(--gold);
-      margin-bottom: 20px;
-      letter-spacing: 1px;
-    }
-
-    .type-tabs {
-      display: flex;
-      gap: 4px;
-      margin-bottom: 20px;
-      flex-wrap: wrap;
-    }
-
-    .type-tab {
-      padding: 8px 16px;
-      background: transparent;
-      border: 1px solid var(--border);
-      color: var(--muted);
-      font-family: 'Jost', sans-serif;
-      font-size: 0.72rem;
-      font-weight: 400;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      cursor: pointer;
-      border-radius: 1px;
-      transition: all 0.2s;
-    }
-
-    .type-tab:hover { color: var(--text); border-color: rgba(255,255,255,0.2); }
-    .type-tab.active { background: var(--gold-dim); border-color: var(--gold); color: var(--gold); }
-
-    .builder-fields { display: none; }
-    .builder-fields.active { display: flex; flex-direction: column; gap: 12px; }
-
-    .field-row { display: flex; gap: 10px; flex-wrap: wrap; }
-
-    input[type=text], input[type=url], textarea {
-      width: 100%;
-      padding: 12px 16px;
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      border-radius: 1px;
-      color: var(--text);
-      font-family: 'Jost', sans-serif;
-      font-size: 0.85rem;
-      font-weight: 300;
-      outline: none;
-      transition: border-color 0.2s;
-      resize: vertical;
-    }
-
-    input[type=text]:focus, input[type=url]:focus, textarea:focus {
-      border-color: rgba(201,169,110,0.4);
-    }
-
-    input::placeholder, textarea::placeholder { color: var(--muted); opacity: 0.6; }
-
-    .btn-publish {
-      align-self: flex-end;
-      padding: 12px 28px;
-      background: var(--gold);
-      color: var(--bg);
-      border: none;
-      border-radius: 1px;
-      font-family: 'Jost', sans-serif;
-      font-size: 0.72rem;
-      font-weight: 500;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      cursor: pointer;
-      transition: opacity 0.2s, transform 0.1s;
-    }
-
-    .btn-publish:hover { opacity: 0.85; }
-    .btn-publish:active { transform: scale(0.98); }
-
-    /* ── POSTS ── */
-    #feed { display: flex; flex-direction: column; gap: 48px; }
-
-    .post-block {
-      animation: fadeUp 0.6s ease both;
-      position: relative;
-    }
-
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(24px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    .post-meta {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 16px;
-    }
-
-    .post-date {
-      font-size: 0.65rem;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
-
-    .post-type-badge {
-      font-size: 0.6rem;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: var(--gold);
-      border: 1px solid var(--gold-dim);
-      padding: 3px 8px;
-      border-radius: 20px;
-    }
-
-    .delete-post {
-      background: none;
-      border: none;
-      color: var(--muted);
-      cursor: pointer;
-      font-size: 0.7rem;
-      letter-spacing: 1px;
-      padding: 4px 8px;
-      transition: color 0.2s;
-      font-family: 'Jost', sans-serif;
-    }
-
-    .delete-post:hover { color: #c0392b; }
-
-    /* TEXT BLOCK */
-    .block-text .content {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.35rem;
-      line-height: 1.8;
-      font-weight: 300;
-      color: var(--text);
-      border-left: 1px solid var(--gold-dim);
-      padding-left: 24px;
-    }
-
-    .block-text .title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.9rem;
-      font-weight: 400;
-      margin-bottom: 12px;
-      color: var(--accent);
-    }
-
-    /* IMAGE BLOCK */
-    .block-image img {
-      width: 100%;
-      display: block;
-      border-radius: 1px;
-      object-fit: cover;
-    }
-
-    .block-image .caption {
-      margin-top: 12px;
-      font-size: 0.78rem;
-      color: var(--muted);
-      font-style: italic;
-      font-family: 'Cormorant Garamond', serif;
-      letter-spacing: 0.5px;
-    }
-
-    /* VIDEO BLOCK */
-    .block-video .video-wrap {
-      position: relative;
-      padding-bottom: 56.25%;
-      height: 0;
-      overflow: hidden;
-      border-radius: 1px;
-    }
-
-    .block-video .video-wrap iframe {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      border: none;
-    }
-
-    .block-video .caption {
-      margin-top: 12px;
-      font-size: 0.78rem;
-      color: var(--muted);
-      font-family: 'Cormorant Garamond', serif;
-      font-style: italic;
-    }
-
-    /* INSTAGRAM BLOCK */
-    .block-instagram .ig-wrap {
-      display: flex;
-      justify-content: center;
-    }
-
-    .instagram-media {
-      border-radius: 1px !important;
-      min-width: unset !important;
-      width: 100% !important;
-      max-width: 540px !important;
-    }
-
-    /* DIVIDER */
-    .section-divider {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      margin: 8px 0;
-    }
-
-    .section-divider::before, .section-divider::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: var(--border);
-    }
-
-    .section-divider span {
-      font-size: 0.6rem;
-      letter-spacing: 3px;
-      color: var(--muted);
-      text-transform: uppercase;
-    }
-
-    /* EMPTY */
-    .feed-empty {
-      text-align: center;
-      padding: 80px 20px;
-      color: var(--muted);
-    }
-
-    .feed-empty p {
-      font-family: 'Cormorant Garamond', serif;
-      font-style: italic;
-      font-size: 1.4rem;
-      margin-bottom: 8px;
-    }
-
-    .feed-empty small { font-size: 0.75rem; letter-spacing: 1px; opacity: 0.5; }
-
-    /* TOAST */
-    .toast {
-      position: fixed;
-      bottom: 30px;
-      right: 30px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      color: var(--text);
-      padding: 12px 20px;
-      font-size: 0.8rem;
-      letter-spacing: 1px;
-      opacity: 0;
-      transform: translateY(10px);
-      transition: all 0.3s;
-      pointer-events: none;
-      z-index: 9999;
-      border-left: 2px solid var(--gold);
-    }
-
-    .toast.show { opacity: 1; transform: translateY(0); }
-
-    @keyframes fadeDown {
-      from { opacity: 0; transform: translateY(-16px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    @media (max-width: 600px) {
-      .builder { padding: 20px; position: static; }
-      .hero-name { letter-spacing: -1px; }
-      .social-row { gap: 16px; flex-wrap: wrap; justify-content: center; }
-    }
-  </style>
+@media(max-width:600px){
+  .page{padding:24px 14px 80px;}
+  .composer{padding:20px;}
+  .gallery-3,.gallery-4{max-height:280px;}
+  .gallery-2{max-height:240px;}
+}
+</style>
 </head>
 <body>
 
-<!-- ── HERO ── -->
-<section class="hero">
-  <p class="hero-eyebrow">Personal Space</p>
-  <h1 class="hero-name">Hoài<br/><em>Thương</em></h1>
-  <p class="hero-sub">Louisa &nbsp;·&nbsp; Life · Moments · Stories</p>
-
-  <div class="social-row">
-    <a href="https://www.facebook.com/HoaiThuong.Louisa/" target="_blank" class="social-link">
+<header class="hero">
+  <div class="hero-tag">✦ Personal Blog</div>
+  <h1 class="hero-name">Hoài <em>Thương</em> · Louisa</h1>
+  <p class="hero-bio">life · beauty · travel · những điều nhỏ bé đáng yêu 🌸</p>
+  <div class="social-pills">
+    <a href="https://www.facebook.com/HoaiThuong.Louisa/" target="_blank" class="pill">
       <svg viewBox="0 0 24 24"><path d="M24 12.07C24 5.41 18.63 0 12 0S0 5.41 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.04V9.41c0-3.02 1.8-4.7 4.54-4.7 1.31 0 2.68.24 2.68.24v2.97h-1.51c-1.49 0-1.95.93-1.95 1.88v2.27h3.32l-.53 3.5h-2.79V24C19.61 23.1 24 18.1 24 12.07z"/></svg>
       Facebook
     </a>
-    <a href="https://www.instagram.com/__hoai_thuong__/" target="_blank" class="social-link">
+    <a href="https://www.instagram.com/__hoai_thuong__/" target="_blank" class="pill">
       <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
       Instagram
     </a>
-    <a href="https://www.tiktok.com/@hoaithuong_louisa" target="_blank" class="social-link">
+    <a href="https://www.tiktok.com/@hoaithuong_louisa" target="_blank" class="pill">
       <svg viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.16 8.16 0 004.77 1.52V6.76a4.85 4.85 0 01-1-.07z"/></svg>
       TikTok
     </a>
   </div>
+</header>
 
-  <div class="scroll-hint">scroll</div>
-</section>
-
-<!-- ── MAIN ── -->
-<main>
-
-  <!-- BUILDER -->
-  <div class="builder">
-    <div class="builder-title">✦ Thêm nội dung mới</div>
-
-    <div class="type-tabs">
-      <button class="type-tab active" onclick="switchTab('text')">✍ Text</button>
-      <button class="type-tab" onclick="switchTab('image')">🖼 Ảnh</button>
-      <button class="type-tab" onclick="switchTab('video')">▶ Video</button>
-      <button class="type-tab" onclick="switchTab('instagram')">📸 Instagram</button>
+<div class="page">
+  <div class="composer">
+    <div class="composer-head">✦ Thêm bài mới</div>
+    <div class="type-row">
+      <button class="tab-btn on" onclick="setTab('text')">✍️ Viết</button>
+      <button class="tab-btn" onclick="setTab('photo')">🖼️ Ảnh</button>
+      <button class="tab-btn" onclick="setTab('video')">▶️ Video</button>
+      <button class="tab-btn" onclick="setTab('instagram')">📸 Instagram</button>
     </div>
 
-    <!-- TEXT -->
-    <div class="builder-fields active" id="fields-text">
-      <input type="text" id="text-title" placeholder="Tiêu đề (tuỳ chọn)"/>
-      <textarea id="text-body" rows="4" placeholder="Viết gì đó..."></textarea>
-      <button class="btn-publish" onclick="publish('text')">Đăng →</button>
+    <div class="fields on" id="f-text">
+      <input type="text" id="t-title" placeholder="Tiêu đề bài viết..."/>
+      <textarea id="t-body" rows="4" placeholder="Kể gì đó cho mọi người nghe nhé 🌸"></textarea>
+      <button class="btn-post" onclick="pub('text')">Đăng bài →</button>
     </div>
 
-    <!-- IMAGE -->
-    <div class="builder-fields" id="fields-image">
-      <input type="url" id="img-url" placeholder="Link ảnh — https://..."/>
-      <input type="text" id="img-caption" placeholder="Caption (tuỳ chọn)"/>
-      <button class="btn-publish" onclick="publish('image')">Đăng →</button>
+    <div class="fields" id="f-photo">
+      <div class="upload-zone" id="dropzone">
+        <input type="file" id="file-input" accept="image/*" multiple onchange="handleFiles(this.files)"/>
+        <div class="upload-icon">🌸</div>
+        <p>Kéo thả ảnh vào đây hoặc click để chọn</p>
+        <span>Hỗ trợ nhiều ảnh cùng lúc · JPG, PNG, WEBP</span>
+      </div>
+      <div class="img-previews" id="previews"></div>
+      <input type="text" id="p-caption" placeholder="Caption cho ảnh (tuỳ chọn)..."/>
+      <button class="btn-post" onclick="pub('photo')">Đăng ảnh →</button>
     </div>
 
-    <!-- VIDEO -->
-    <div class="builder-fields" id="fields-video">
-      <input type="url" id="vid-url" placeholder="Link YouTube hoặc Vimeo"/>
-      <input type="text" id="vid-caption" placeholder="Caption (tuỳ chọn)"/>
-      <button class="btn-publish" onclick="publish('video')">Đăng →</button>
+    <div class="fields" id="f-video">
+      <input type="url" id="v-url" placeholder="Link YouTube hoặc Vimeo..."/>
+      <input type="text" id="v-caption" placeholder="Caption (tuỳ chọn)..."/>
+      <button class="btn-post" onclick="pub('video')">Đăng video →</button>
     </div>
 
-    <!-- INSTAGRAM -->
-    <div class="builder-fields" id="fields-instagram">
-      <input type="url" id="ig-url" placeholder="Link bài đăng Instagram — https://www.instagram.com/p/..."/>
-      <input type="text" id="ig-caption" placeholder="Caption (tuỳ chọn)"/>
-      <button class="btn-publish" onclick="publish('instagram')">Đăng →</button>
+    <div class="fields" id="f-instagram">
+      <input type="url" id="ig-url" placeholder="https://www.instagram.com/p/..."/>
+      <input type="text" id="ig-caption" placeholder="Caption (tuỳ chọn)..."/>
+      <button class="btn-post" onclick="pub('instagram')">Đăng →</button>
     </div>
   </div>
 
-  <!-- FEED -->
   <div id="feed">
-    <div class="feed-empty">
-      <p>Trang này đang trống...</p>
-      <small>Dùng form phía trên để thêm nội dung đầu tiên ✦</small>
+    <div class="empty">
+      <div class="empty-icon">🌸</div>
+      <p>Blog của bạn đang trống...</p>
+      <small>Thêm bài viết đầu tiên bằng form phía trên nhé!</small>
     </div>
   </div>
+</div>
 
-</main>
-
+<div class="lightbox" id="lightbox" onclick="closeLb()">
+  <button class="lightbox-close">×</button>
+  <img id="lb-img" src="" alt="" onclick="event.stopPropagation()"/>
+</div>
 <div class="toast" id="toast"></div>
 
 <script async src="//www.instagram.com/embed.js"></script>
 <script>
-  let posts = JSON.parse(localStorage.getItem('louisa_blog') || '[]');
-  let activeTab = 'text';
+let posts = JSON.parse(localStorage.getItem('louisa_v3') || '[]');
+let pending = [];
+let curTab = 'text';
 
-  function switchTab(type) {
-    activeTab = type;
-    document.querySelectorAll('.type-tab').forEach((t,i) => {
-      t.classList.toggle('active', ['text','image','video','instagram'][i] === type);
-    });
-    document.querySelectorAll('.builder-fields').forEach(f => f.classList.remove('active'));
-    document.getElementById('fields-' + type).classList.add('active');
-  }
+function setTab(t) {
+  curTab = t;
+  document.querySelectorAll('.tab-btn').forEach((b,i) =>
+    b.classList.toggle('on', ['text','photo','video','instagram'][i] === t));
+  document.querySelectorAll('.fields').forEach(f => f.classList.remove('on'));
+  document.getElementById('f-'+t).classList.add('on');
+}
 
-  function toast(msg) {
-    const t = document.getElementById('toast');
-    t.textContent = msg;
-    t.classList.add('show');
-    setTimeout(() => t.classList.remove('show'), 2500);
-  }
-
-  function getYoutubeId(url) {
-    const m = url.match(/(?:youtu\.be\/|youtube\.com(?:\/embed\/|\/v\/|\/watch\?v=|\/watch\?.+&v=))([^"&?\/\s]{11})/);
-    return m ? m[1] : null;
-  }
-
-  function getVimeoId(url) {
-    const m = url.match(/vimeo\.com\/(\d+)/);
-    return m ? m[1] : null;
-  }
-
-  function getIGUrl(input) {
-    const m = input.match(/instagram\.com\/(p|reel)\/([A-Za-z0-9_-]+)/);
-    return m ? `https://www.instagram.com/${m[1]}/${m[2]}/` : null;
-  }
-
-  function publish(type) {
-    let post = { type, id: Date.now(), date: new Date().toLocaleDateString('vi-VN', { day:'2-digit', month:'2-digit', year:'numeric' }) };
-
-    if (type === 'text') {
-      const title = document.getElementById('text-title').value.trim();
-      const body  = document.getElementById('text-body').value.trim();
-      if (!body) { toast('Hãy viết gì đó!'); return; }
-      post.title = title; post.body = body;
-      document.getElementById('text-title').value = '';
-      document.getElementById('text-body').value = '';
-    }
-
-    if (type === 'image') {
-      const url = document.getElementById('img-url').value.trim();
-      if (!url) { toast('Nhập link ảnh nhé!'); return; }
-      post.url = url;
-      post.caption = document.getElementById('img-caption').value.trim();
-      document.getElementById('img-url').value = '';
-      document.getElementById('img-caption').value = '';
-    }
-
-    if (type === 'video') {
-      const url = document.getElementById('vid-url').value.trim();
-      if (!url) { toast('Nhập link video nhé!'); return; }
-      const ytId = getYoutubeId(url);
-      const vmId = getVimeoId(url);
-      if (!ytId && !vmId) { toast('Chỉ hỗ trợ YouTube và Vimeo!'); return; }
-      post.embedUrl = ytId
-        ? `https://www.youtube.com/embed/${ytId}`
-        : `https://player.vimeo.com/video/${vmId}`;
-      post.caption = document.getElementById('vid-caption').value.trim();
-      document.getElementById('vid-url').value = '';
-      document.getElementById('vid-caption').value = '';
-    }
-
-    if (type === 'instagram') {
-      const raw = document.getElementById('ig-url').value.trim();
-      const url = getIGUrl(raw);
-      if (!url) { toast('Link Instagram không hợp lệ!'); return; }
-      post.url = url;
-      post.caption = document.getElementById('ig-caption').value.trim();
-      document.getElementById('ig-url').value = '';
-      document.getElementById('ig-caption').value = '';
-    }
-
-    posts.unshift(post);
-    localStorage.setItem('louisa_blog', JSON.stringify(posts));
-    render();
-    toast('Đã đăng ✓');
-    setTimeout(() => { if (window.instgrm) window.instgrm.Embeds.process(); }, 500);
-  }
-
-  function deletePost(id) {
-    posts = posts.filter(p => p.id !== id);
-    localStorage.setItem('louisa_blog', JSON.stringify(posts));
-    render();
-    toast('Đã xoá');
-  }
-
-  function typeLabel(t) {
-    return { text:'Text', image:'Ảnh', video:'Video', instagram:'Instagram' }[t] || t;
-  }
-
-  function renderBlock(p, i) {
-    const meta = `
-      <div class="post-meta">
-        <span class="post-date">${p.date}</span>
-        <span style="display:flex;align-items:center;gap:12px;">
-          <span class="post-type-badge">${typeLabel(p.type)}</span>
-          <button class="delete-post" onclick="deletePost(${p.id})">× xoá</button>
-        </span>
-      </div>`;
-
-    if (p.type === 'text') return `
-      <div class="post-block block-text" style="animation-delay:${i*0.07}s">
-        ${meta}
-        <div class="content">
-          ${p.title ? `<div class="title">${p.title}</div>` : ''}
-          <p>${p.body.replace(/\n/g,'<br/>')}</p>
-        </div>
-      </div>`;
-
-    if (p.type === 'image') return `
-      <div class="post-block block-image" style="animation-delay:${i*0.07}s">
-        ${meta}
-        <img src="${p.url}" alt="${p.caption||''}" loading="lazy"/>
-        ${p.caption ? `<div class="caption">${p.caption}</div>` : ''}
-      </div>`;
-
-    if (p.type === 'video') return `
-      <div class="post-block block-video" style="animation-delay:${i*0.07}s">
-        ${meta}
-        <div class="video-wrap">
-          <iframe src="${p.embedUrl}" allowfullscreen loading="lazy"></iframe>
-        </div>
-        ${p.caption ? `<div class="caption">${p.caption}</div>` : ''}
-      </div>`;
-
-    if (p.type === 'instagram') return `
-      <div class="post-block block-instagram" style="animation-delay:${i*0.07}s">
-        ${meta}
-        <div class="ig-wrap">
-          <blockquote class="instagram-media" data-instgrm-permalink="${p.url}" data-instgrm-version="14" style="width:100%;max-width:540px;"></blockquote>
-        </div>
-        ${p.caption ? `<div style="margin-top:12px;font-style:italic;font-family:'Cormorant Garamond',serif;color:var(--muted);font-size:0.85rem;">${p.caption}</div>` : ''}
-      </div>`;
-
-    return '';
-  }
-
-  function render() {
-    const feed = document.getElementById('feed');
-    if (posts.length === 0) {
-      feed.innerHTML = `<div class="feed-empty"><p>Trang này đang trống...</p><small>Dùng form phía trên để thêm nội dung đầu tiên ✦</small></div>`;
-      return;
-    }
-    feed.innerHTML = posts.map((p, i) =>
-      (i > 0 ? `<div class="section-divider"><span>✦</span></div>` : '') + renderBlock(p, i)
-    ).join('');
-  }
-
-  document.addEventListener('keydown', e => {
-    if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') publish(activeTab);
+function handleFiles(files) {
+  Array.from(files).forEach(f => {
+    const r = new FileReader();
+    r.onload = e => { pending.push(e.target.result); renderPreviews(); };
+    r.readAsDataURL(f);
   });
+}
 
-  render();
+function renderPreviews() {
+  document.getElementById('previews').innerHTML = pending.map((src,i) => `
+    <div class="img-preview-item">
+      <img src="${src}"/>
+      <button onclick="pending.splice(${i},1);renderPreviews()">×</button>
+    </div>`).join('');
+}
+
+const dz = document.getElementById('dropzone');
+dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('drag'); });
+dz.addEventListener('dragleave', () => dz.classList.remove('drag'));
+dz.addEventListener('drop', e => { e.preventDefault(); dz.classList.remove('drag'); handleFiles(e.dataTransfer.files); });
+
+function ytId(u) { const m=u.match(/(?:youtu\.be\/|youtube\.com(?:\/embed\/|\/v\/|\/watch\?v=|\/watch\?.+&v=))([^"&?\/\s]{11})/); return m?m[1]:null; }
+function vmId(u) { const m=u.match(/vimeo\.com\/(\d+)/); return m?m[1]:null; }
+function igClean(u) { const m=u.match(/instagram\.com\/(p|reel)\/([A-Za-z0-9_-]+)/); return m?`https://www.instagram.com/${m[1]}/${m[2]}/`:null; }
+function today() { return new Date().toLocaleDateString('vi-VN',{day:'2-digit',month:'2-digit',year:'numeric'}); }
+function save() { localStorage.setItem('louisa_v3', JSON.stringify(posts)); }
+
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+function pub(type) {
+  let p = { type, id: Date.now(), date: today() };
+  if (type === 'text') {
+    const title = document.getElementById('t-title').value.trim();
+    const body  = document.getElementById('t-body').value.trim();
+    if (!body && !title) { toast('Viết gì đó đi bạn ơi 🌸'); return; }
+    p.title = title; p.body = body;
+    document.getElementById('t-title').value = '';
+    document.getElementById('t-body').value = '';
+  }
+  if (type === 'photo') {
+    if (!pending.length) { toast('Chọn ảnh trước nhé!'); return; }
+    p.images = [...pending];
+    p.caption = document.getElementById('p-caption').value.trim();
+    pending = []; renderPreviews();
+    document.getElementById('p-caption').value = '';
+    document.getElementById('file-input').value = '';
+  }
+  if (type === 'video') {
+    const url = document.getElementById('v-url').value.trim();
+    const yt = ytId(url), vm = vmId(url);
+    if (!yt && !vm) { toast('Chỉ hỗ trợ YouTube và Vimeo!'); return; }
+    p.embedUrl = yt ? `https://www.youtube.com/embed/${yt}` : `https://player.vimeo.com/video/${vm}`;
+    p.caption = document.getElementById('v-caption').value.trim();
+    document.getElementById('v-url').value = '';
+    document.getElementById('v-caption').value = '';
+  }
+  if (type === 'instagram') {
+    const url = igClean(document.getElementById('ig-url').value.trim());
+    if (!url) { toast('Link Instagram không hợp lệ!'); return; }
+    p.url = url;
+    p.caption = document.getElementById('ig-caption').value.trim();
+    document.getElementById('ig-url').value = '';
+    document.getElementById('ig-caption').value = '';
+  }
+  posts.unshift(p); save(); render();
+  toast('Đã đăng thành công 🌸');
+  setTimeout(() => { if (window.instgrm) window.instgrm.Embeds.process(); }, 400);
+}
+
+function delPost(id) { posts = posts.filter(p => p.id !== id); save(); render(); toast('Đã xoá'); }
+
+function gallery(images) {
+  const n = images.length;
+  const img = (src, cls='') => `<img src="${src}" alt="" loading="lazy" class="${cls}" onclick="openLb('${src}')" style="cursor:zoom-in;"/>`;
+  if (n === 1) return `<div class="gallery-1">${img(images[0])}</div>`;
+  if (n === 2) return `<div class="gallery-2">${images.map(s=>img(s)).join('')}</div>`;
+  if (n === 3) return `<div class="gallery-3">${images.map(s=>img(s)).join('')}</div>`;
+  if (n === 4) return `<div class="gallery-4">${images.map(s=>img(s)).join('')}</div>`;
+  const show = images.slice(0, 9);
+  return `<div class="gallery-many">${show.map((src,i) => {
+    const extra = (i===8 && n>9) ? `<div style="position:absolute;inset:0;background:rgba(0,0,0,0.45);display:flex;align-items:center;justify-content:center;color:white;font-size:1.4rem;font-family:'Libre Baskerville',serif;font-style:italic;">+${n-9}</div>` : '';
+    return `<div style="position:relative;aspect-ratio:1;overflow:hidden;">
+      <img src="${src}" alt="" style="width:100%;height:100%;object-fit:cover;cursor:zoom-in;" onclick="openLb('${src}')" loading="lazy"/>
+      ${extra}</div>`;
+  }).join('')}</div>`;
+}
+
+function typeLabel(t) { return {text:'Bài viết',photo:'Ảnh',video:'Video',instagram:'Instagram'}[t]||t; }
+
+function render() {
+  const feed = document.getElementById('feed');
+  if (!posts.length) {
+    feed.innerHTML = `<div class="empty"><div class="empty-icon">🌸</div><p>Blog của bạn đang trống...</p><small>Thêm bài viết đầu tiên bằng form phía trên nhé!</small></div>`;
+    return;
+  }
+  feed.innerHTML = posts.map((p,i) => {
+    let inner = '';
+    if (p.type === 'text') inner = `<div class="card-body">
+      ${p.title ? `<div class="post-title">${p.title}</div>` : ''}
+      ${p.body  ? `<div class="post-text">${p.body.replace(/\n/g,'<br/>')}</div>` : ''}
+    </div>`;
+    if (p.type === 'photo') inner = `
+      ${gallery(p.images)}
+      ${p.caption ? `<div class="img-caption">${p.caption}</div>` : ''}`;
+    if (p.type === 'video') inner = `
+      <div class="video-wrap"><iframe src="${p.embedUrl}" allowfullscreen loading="lazy"></iframe></div>
+      ${p.caption ? `<div class="img-caption">${p.caption}</div>` : ''}`;
+    if (p.type === 'instagram') inner = `
+      <div class="ig-wrap"><blockquote class="instagram-media" data-instgrm-permalink="${p.url}" data-instgrm-version="14" style="width:100%;max-width:480px;"></blockquote></div>
+      ${p.caption ? `<div class="img-caption">${p.caption}</div>` : ''}`;
+
+    return `<div class="post-card" style="animation-delay:${i*0.06}s">
+      <div class="card-header">
+        <div class="card-meta">
+          <div class="avatar">L</div>
+          <div><div class="card-author">Hoài Thương · Louisa</div><div class="card-date">${p.date}</div></div>
+        </div>
+        <div class="card-actions">
+          <span class="type-chip">${typeLabel(p.type)}</span>
+          <button class="btn-del" onclick="delPost(${p.id})">× xoá</button>
+        </div>
+      </div>
+      ${inner}
+    </div>`;
+  }).join('');
+  if (window.instgrm) window.instgrm.Embeds.process();
+}
+
+function openLb(src) {
+  document.getElementById('lb-img').src = src;
+  document.getElementById('lightbox').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeLb() {
+  document.getElementById('lightbox').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeLb();
+  if ((e.ctrlKey||e.metaKey) && e.key==='Enter') pub(curTab);
+});
+
+render();
 </script>
 </body>
 </html>
